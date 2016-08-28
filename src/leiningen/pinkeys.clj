@@ -8,7 +8,7 @@
    [clojure.java.io :as io]
    [clojure.pprint :as pprint]
    [leiningen.core.classpath :as classpath]
-   leiningen.core.main)
+   [leiningen.core.main :as main])
   (:import (org.sonatype.aether.resolution DependencyResolutionException)))
 
 (def keyring-path (str (System/getProperty "user.home") "/.gnupg/pubring.gpg"))
@@ -28,14 +28,13 @@
 (defn- walk-deps [deps f] (into {} (walk-deps* deps f)))
 
 (defn- get-jar [project dep]
-  (try (->> (aether/resolve-dependencies
-             :repositories (:repositories project)
-             :mirrors (:mirrors project)
-             :coordinates [dep])
-            (aether/dependency-files)
-            (filter #(.endsWith (.getName %) ".jar"))
-            (first))
-       (catch DependencyResolutionException _)))
+  (->> (aether/resolve-artifacts
+        :repositories (:repositories project)
+        :mirrors (:mirrors project)
+        :coordinates [dep])
+       (first)
+       (meta)
+       (:file)))
 
 (defn- get-signature [project dep]
   (let [dep-map (assoc (apply hash-map (drop 2 dep))
@@ -72,12 +71,11 @@
       (if-let [key (some->> signature
                             (pgp/key-id)
                             (keyring/get-public-key keyring))]
-        (when (and key (pgp-sig/verify jar-file signature key))
-          (pgp/hex-fingerprint key))
-        (leiningen.core.main/warn
-         (str "Key not found: " (pgp/hex-id signature) " (" dep ")")))
-      (leiningen.core.main/warn
-       (str "Signature not found or broken for " dep)))))
+        (if (pgp-sig/verify jar-file signature key)
+          (pgp/hex-fingerprint key)
+          (main/warn "Failed to verify file: " jar-file))
+        (main/warn (str "Key not found: " (pgp/hex-id signature) " (" dep ")")))
+      (main/warn (str "Signature not found or broken for " dep)))))
 
 (defn- map-map-keys [f coll] (into {} (for [[k v] coll] [(f k) v])))
 
@@ -102,7 +100,7 @@
                      (if (= old-fp new-fp)
                        [dep old-fp]
                        (do
-                         (println
+                         (main/warn
                           (format (str "WARN: Fingerprint for %s does not match "
                                        "the pinned fingerprint.\n      "
                                        "actual = %s, pinned = %s")
@@ -110,7 +108,7 @@
                          [dep old-fp]))
                      (do
                        (when new-fp
-                         (println (format "New fingerprint for %s, pinning" dep)))
+                         (main/info (format "New fingerprint for %s, pinning" dep)))
                        [dep new-fp]))))]
     (with-open [pin-file (io/writer "pinkeys.edn")]
       (binding [pprint/*print-right-margin* 80]
