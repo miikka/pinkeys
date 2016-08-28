@@ -82,8 +82,11 @@
 (defn- map-map-keys [f coll] (into {} (for [[k v] coll] [(f k) v])))
 
 (defn load-pins []
-  (with-open [pin-file (java.io.PushbackReader. (io/reader "pinkeys.edn"))]
-    (edn/read pin-file)))
+  (try
+    (with-open [pin-file (java.io.PushbackReader. (io/reader "pinkeys.edn"))]
+      (edn/read pin-file))
+    (catch java.io.FileNotFoundException _
+      {})))
 
 (defn pinkeys
   "Pin dependency GPG keys."
