@@ -1,14 +1,14 @@
 (ns leiningen.pinkeys
   (:require
    [cemerick.pomegranate.aether :as aether]
-   [clj-pgp.keyring :as keyring]
    [clj-pgp.core :as pgp]
-   [clojure.java.io :as io]
-   [leiningen.core.classpath :as classpath]
+   [clj-pgp.keyring :as keyring]
    [clj-pgp.signature :as pgp-sig]
-   leiningen.core.main
-   clojure.pprint
-   [clojure.edn :as edn])
+   [clojure.edn :as edn]
+   [clojure.java.io :as io]
+   [clojure.pprint :as pprint]
+   [leiningen.core.classpath :as classpath]
+   leiningen.core.main)
   (:import (org.sonatype.aether.resolution DependencyResolutionException)))
 
 (def keyring-path (str (System/getProperty "user.home") "/.gnupg/pubring.gpg"))
@@ -110,4 +110,5 @@
                          (println (format "New fingerprint for %s, pinning" dep)))
                        [dep new-fp]))))]
     (with-open [pin-file (io/writer "pinkeys.edn")]
-      (.write pin-file (pr-str merged-map)))))
+      (binding [pprint/*print-right-margin* 80]
+        (pprint/pprint merged-map pin-file)))))
