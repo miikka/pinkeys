@@ -1,4 +1,4 @@
-(defproject lein-pinkeys "0.1.0-SNAPSHOT"
+(defproject miikka/lein-pinkeys "0.1.0-SNAPSHOT"
   :description "A Leiningen plugin for pinning the PGP keys for your dependencies."
   :url "https://github.com/miikka/lein-pinkeys"
   :license {:name "Eclipse Public License"
