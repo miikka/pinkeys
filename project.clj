@@ -4,4 +4,5 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[mvxcvi/clj-pgp "0.8.3" :exclusions [org.clojure/clojure]]]
-  :eval-in-leiningen true)
+  :eval-in-leiningen true
+  :source-paths ["src" "lein-pinkeys/src"])
