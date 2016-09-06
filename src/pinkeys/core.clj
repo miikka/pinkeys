@@ -6,7 +6,9 @@
    [clj-pgp.signature :as pgp-sig]
    [clojure.edn :as edn]
    [clojure.java.io :as io]
-   [clojure.pprint :as pprint])
+   [clojure.pprint :as pprint]
+   [clojure.set :as set]
+   [clojure.string :as string])
   (:import (org.sonatype.aether.resolution DependencyResolutionException)))
 
 (def keyring-path (str (System/getProperty "user.home")
@@ -86,6 +88,8 @@
     (catch java.io.FileNotFoundException _
       {})))
 
+(defn- keyset [x] (set (keys x)))
+
 (defn pinkeys
   "Pin dependency GPG keys."
   [project & args]
@@ -109,7 +113,10 @@
                      (do
                        (when new-fp
                          (println (format "New fingerprint for %s, pinning" dep)))
-                       [dep new-fp]))))]
+                       [dep new-fp]))))
+        dropped (set/difference (keyset old-map) (keyset new-map))]
+    (when (seq dropped)
+      (println (format "Dropped:\n * %s" (string/join "\n * " dropped))))
     (with-open [pin-file (io/writer "pinkeys.edn")]
       (binding [pprint/*print-right-margin* 80]
         (pprint/pprint merged-map pin-file)))))
