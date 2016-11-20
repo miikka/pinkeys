@@ -1,6 +1,6 @@
 # lein-pinkeys
 
-A Leiningen plugin for pinning the PGP keys for your dependencies. **Very experimental, likely unsecure.**
+Leiningen/Boot plugin for pinning the PGP keys for your dependencies. **Very experimental, likely unsecure.**
 
 ## Usage
 
