@@ -23,9 +23,9 @@
  org.sonatype.aether/aether-impl "BA926F64CA647B6D853A38672E2010F8A7FF4A41",
  org.sonatype.aether/aether-connector-wagon
  "BA926F64CA647B6D853A38672E2010F8A7FF4A41",
- commons-codec nil,
+ commons-codec "D196A5E3E70732EEB2E5007F1861C322C56014B2",
  org.sonatype.aether/aether-spi "BA926F64CA647B6D853A38672E2010F8A7FF4A41",
- commons-logging nil,
+ commons-logging "B920D295BF0E61CB4CF0896C33CD6733AF5EC452",
  org.codehaus.plexus/plexus-classworlds
  "BA926F64CA647B6D853A38672E2010F8A7FF4A41",
  org.apache.maven.wagon/wagon-http "F254B35617DC255D9344BCFA873A8E86B4372146",
@@ -47,4 +47,4 @@
  "BA926F64CA647B6D853A38672E2010F8A7FF4A41",
  org.apache.maven/maven-repository-metadata
  "F254B35617DC255D9344BCFA873A8E86B4372146",
- commons-io nil}
+ commons-io "D196A5E3E70732EEB2E5007F1861C322C56014B2"}
