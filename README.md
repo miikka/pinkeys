@@ -4,11 +4,20 @@ A Leiningen plugin for pinning the PGP keys for your dependencies. **Very experi
 
 ## Usage
 
-Put `[[miikka/lein-pinkeys "0.1.0-SNAPSHOT"]]` into the `:plugins` vector of your project.clj.
+**Leiningen:** Put `[[miikka/pinkeys "0.1.0"]]` into the `:plugins` vector of your project.clj.
 
     $ lein pinkeys
 
-Re-run it when you upgrade your dependencies.
+**Boot:** Put `[[miikka/pinkeys "0.1.0" :scope "test"]]` into the
+`:dependencies` :vector of your build.boot. Then require the task:
+
+    (require '[miikka.boot-pinkeys :refer [pinkeys]])
+
+Run it:
+
+    $ boot pinkeys
+
+Re-run pinkeys when you upgrade your dependencies.
 
 ## License
 
