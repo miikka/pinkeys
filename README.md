@@ -19,6 +19,11 @@ Run it:
 
 Re-run pinkeys when you upgrade your dependencies.
 
+## Ideas and todos
+
+* Somehow hook into the dependency downloading to automatically verify the downloads.
+* Pin down the checksums of the dependencies like [gradle-witness](https://github.com/whispersystems/gradle-witness) does.
+
 ## License
 
 Copyright © 2016 Miikka Koskinen.
