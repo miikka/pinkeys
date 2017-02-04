@@ -107,7 +107,7 @@
                          (println
                           (format (str "WARN: Fingerprint for %s does not match "
                                        "the pinned fingerprint.\n      "
-                                       "actual = %s, pinned = %s")
+                                       "pinned = %s, actual = %s")
                                   dep old-fp new-fp))
                          [dep old-fp]))
                      (do
