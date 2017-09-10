@@ -11,7 +11,7 @@ check the signatures, but it's hardly useful. All you learn is that somebody has
 signed the JAR with a key that has been published on a keyserver.
 
 Pinkeys is an attempt to go a step further by implementing a trust-on-first-use
-(TOFU) policy for the dependency signging keys. When you add a new dependency,
+(TOFU) policy for the dependency signing keys. When you add a new dependency,
 Pinkeys stores the fingerprint of the signing key of that dependency. Then, when
 you update the dependency, if the new JAR is not signed by the same key, Pinkeys
 will warn you.
