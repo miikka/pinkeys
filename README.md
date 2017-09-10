@@ -28,11 +28,11 @@ the [Clojars JAR signing discussion][clojars-562].
 
 ## Usage
 
-**Leiningen:** Put `[[miikka/pinkeys "0.1.0"]]` into the `:plugins` vector of your project.clj.
+**Leiningen:** Put `[[miikka/pinkeys "0.1.1"]]` into the `:plugins` vector of your project.clj.
 
     $ lein pinkeys
 
-**Boot:** Put `[[miikka/pinkeys "0.1.0" :scope "test"]]` into the
+**Boot:** Put `[[miikka/pinkeys "0.1.1" :scope "test"]]` into the
 `:dependencies` :vector of your build.boot. Then require the task:
 
     (require '[miikka.boot-pinkeys :refer [pinkeys]])
